@@ -1,0 +1,61 @@
+.account_table {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  .form_groups {
+    .form_group {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      gap: var(--pad-pri);
+      margin: var(--pad-pri) 0;
+      .show_password {
+        position: absolute;
+        bottom: 0;
+        right: 10px;
+        cursor: pointer;
+        color: black;
+      }
+    }
+  }
+  .btnn.log_in {
+    margin: var(--pad-pri) 0;
+  }
+}
+.signup_page {
+  .signup_wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    .signup_form {
+      .form_group {
+        display: flex;
+        flex-direction: column;
+        gap: var(--pad-pri);
+        margin: var(--pad-pri) 0;
+      }
+    }
+  }
+}
+.account_info_page {
+  .info_tabs_wrapper {
+    display: flex;
+    text-align: center;
+    justify-content: center;
+  }
+  .orders_table {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    .order_card {
+      border: 1px solid var(--primary-color);
+      margin-top: var(--pad-pri);
+      padding: var(--pad-pri);
+    }
+  }
+}

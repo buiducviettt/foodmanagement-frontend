@@ -1,0 +1,150 @@
+@import './_font.scss';
+* {
+  box-sizing: border-box;
+}
+:root {
+  --primary-color: #ea7c69;
+  --full-background: #252836;
+  --primary-background: rgba(255, 255, 255, 0.12);
+  --fixed-gap: 105px;
+  --color-hover: rgb(255, 59, 92);
+  --color-secondary-text: #ffffff80;
+  --background-hover: rgba(255, 255, 255, 0.1);
+  --transition-color: color 0.3s ease;
+  --pad-pri: 2.4rem;
+  --pad-sec: 2.4rem 0;
+  --font-pri: 'Barlow', serif;
+  --form-bg: #2d303e;
+  --stroke: 0.5px solid #393c49;
+  --secondary-color: #9288e0;
+}
+
+html {
+  font-size: 62.5%;
+  // scroll-behavior: smooth;
+
+  @media screen and (min-width: 2000px) {
+    font-size: 70%;
+  }
+}
+td {
+  color: #e0e6e9 !important;
+  font-weight: 300;
+}
+h1,
+h2,
+h3,
+h4,
+p,
+span {
+  color: white;
+}
+
+th {
+  font-weight: bold;
+}
+
+h1 {
+  @include fz-28;
+  font-weight: 600;
+}
+h2 {
+  @include fz-24;
+  font-weight: 600;
+}
+label {
+  @include fz-14;
+  color: white;
+  font-weight: 600;
+}
+body {
+  background-color: var(--full-background);
+  font-family: var(--font-pri);
+  @include fz-16;
+  line-height: 1.55;
+  font-weight: var(--fw);
+  color: var(--c-txt);
+  overflow: hidden auto;
+  @media screen and (min-width: 2000px) {
+    font-size: 17px;
+  }
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+button,
+select {
+  border: none;
+  outline: none;
+  cursor: pointer;
+  -webkit-appearance: none;
+  cursor: pointer;
+  font-family: var(--font-pri);
+}
+
+button {
+  padding: 0;
+  background-color: transparent;
+  font-family: var(--font-pri);
+}
+
+input,
+textarea {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  font-family: var(--font-pri) !important;
+}
+.sec-gap {
+  padding: var(--pad-sec);
+}
+.main {
+  margin-left: calc(var(--fixed-gap)); // Tránh header
+}
+.container {
+  width: 100%;
+  max-width: 123rem;
+  height: 100%;
+  margin: 0 auto;
+  padding: 0 var(--pd-container);
+}
+
+.sec-container {
+  width: 100%;
+  max-width: 155rem;
+  height: 100%;
+  margin: 0 auto;
+  padding: 0 var(--pd-container);
+}
+
+.over {
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+.no-scroll {
+  touch-action: none;
+  -webkit-overflow-scrolling: none;
+  overflow: hidden;
+  overscroll-behavior: none;
+}
+
+iframe {
+  vertical-align: middle;
+}
+
+.load-item {
+  display: none;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}

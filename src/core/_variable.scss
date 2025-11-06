@@ -1,0 +1,97 @@
+:root {
+  --fw: 400;
+  --z: 50;
+  --sz-hd-top: 4.5rem;
+  --sz-hd-main: 10rem;
+  --sz-hd-bot: 5.2rem;
+  @media screen and (max-width: 1200px) {
+    --sz-hd-top: 4rem;
+    --sz-hd-main: 8rem;
+    --sz-hd-bot: 4.5rem;
+  }
+
+  @media screen and (max-width: 650px) {
+    --sz-hd-main: 6rem;
+    --sz-hd-bot: 4.8rem;
+  }
+  --sz-hd: calc(var(--sz-hd-top) + var(--sz-hd-main) + var(--sz-hd-bot));
+  // Color for border
+  --c-bd: #f5f5f5;
+  --c-bd-pri: #ffde94;
+  --c-bg: #f5f5f5;
+  --bg-dark: #1c1c1c;
+  --c-black: #121110;
+  // Color for text
+  --c-txt: #231f20;
+  // Color origin
+  --c-title-acc: #0f172a;
+  --c-text-acc: #0f172a;
+  --c-pri: #ea7c69;
+  --c-second: #ff8900;
+  --c-third: #0086c9;
+  --c-four: #2686ec;
+  --c-five: #f04438;
+  --c-six: #12b76a;
+  --c-seven: #1ec2f5;
+  --c-hv: #f2e7fa;
+  --c-ye: #fdb022;
+  --c-grey: #595959;
+  --c-grey-2: #8c8c8c;
+  --c-red: #ec1e27;
+  // Color for text
+  $c-txt: #231f20;
+  // distance section
+  --pd-sc: 8rem;
+  --pd-container: 1.5rem;
+  --rs: 1.2rem;
+  --rs2: 1.6rem;
+  // common
+  --h-fix: 5.5rem;
+  --h-input: 5rem;
+  --w-scroll: 0.5rem;
+  --duration: 1s;
+  // Color for filter svg
+  --c-icon-white: brightness(0) invert(1);
+  @media (max-width: 1200px) {
+    --pd-sc: 4rem;
+    --sz-hd-foot: 0rem;
+  }
+  @media (max-width: 600px) {
+    --pd-container: 1.2rem;
+  }
+}
+
+// Color for border
+$c-bd: #f5f5f5;
+$c-bd-pri: #ffde94;
+$bg-dark: #1c1c1c;
+$c-bg: #f5f5f5;
+$bg-dark: #1c1c1c;
+// Color origin
+$c-title-acc: #0f172a;
+$c-text-acc: #0f172a;
+$c-pri: #4c7451;
+$c-second: #ff8900;
+$c-third: #0086c9;
+$c-four: #2686ec;
+$c-five: #f04438;
+$c-six: #12b76a;
+$c-gold: #ffaa00;
+$c-ye: #fdb022;
+$c-grey: #595959;
+$c-red: #ec1e27;
+// Color for text
+$c-txt: #231f20;
+$color-border-01: rgba(0, 0, 0, 0.1);
+//Responsive
+$res-mobile: 1199px;
+$res-mobile-min: 1200px;
+$res-container: 1430px;
+$mobile: 600px;
+$mobile-min: 601px;
+$tablet: 1024px;
+$tablet-min: 1025px;
+//Distance
+$radius: 0.6rem;
+// cubic
+$cubic: cubic-bezier(0.72, 0.04, 0.49, 0.82);

@@ -1,0 +1,151 @@
+.home_layout {
+  position: relative;
+  display: grid;
+  grid-template-columns: 60% 1fr;
+
+  .home_menu {
+    padding: var(--pad-pri);
+    .home_header {
+      display: flex;
+      justify-content: space-between;
+      flex-direction: row;
+    }
+  }
+
+  .home_order {
+    width: 35%;
+    position: fixed;
+    top: 0;
+    right: 0;
+    min-height: 100vh;
+    overflow-y: auto;
+    background: #1f1d2b;
+    z-index: 10;
+    &_inner {
+      padding: var(--pad-pri);
+
+      .home_order_table_inner_wrapper_price {
+        text-align: center;
+      }
+    }
+    &_table {
+      height: 50rem;
+      overflow-y: auto;
+      &_inner {
+        .comment_order {
+          background-color: var(--full-background);
+          border-style: none;
+          color: white;
+        }
+        td {
+          padding: 1rem 0;
+        }
+        .table_heading_wrapper {
+          th {
+            margin-bottom: var(--pad-pri);
+            font-weight: 600;
+            border-bottom: var(--stroke);
+          }
+        }
+        .table_content {
+          padding-top: var(--pad-pri);
+        }
+
+        width: 100%;
+        border-collapse: collapse;
+        text-align: left;
+        &_wrapper {
+          border-radius: 8px;
+          width: fit-content;
+          padding: 1.4rem 2rem;
+          background-color: var(--form-bg);
+          border: var(--stroke);
+        }
+      }
+    }
+  }
+  .home_tabs {
+    &_title {
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+    }
+  }
+  .home_order_payment {
+    .home_order_payment {
+      &_inner {
+        .order_cta_group {
+          margin-top: 27rem;
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 1.6rem;
+          .cta_btn {
+            width: 100%;
+          }
+        }
+        &_form {
+          .home_order_payment_form {
+            display: flex;
+            flex-direction: column;
+            gap: 1.6rem;
+
+            .form-control,
+            select {
+              &::placeholder {
+                color: #abbbc2;
+              }
+              color: white;
+              background-color: var(--full-background);
+              font-size: 1.6rem;
+            }
+          }
+        }
+        .payment_method {
+          display: flex;
+          flex-direction: column;
+          gap: 1.6rem;
+          &_inner {
+            .method_item {
+              p {
+                color: #abbbc2;
+              }
+              padding: 1rem var(--pad-pri);
+              border-radius: 8px;
+              border: var(--stroke);
+              display: flex;
+              flex-direction: column;
+              align-items: center;
+              .method_img {
+                width: 24px; /* Điều chỉnh kích thước ảnh nếu cần */
+                height: 24px;
+                filter: brightness(0) saturate(100%) invert(82%) sepia(4%)
+                  saturate(875%) hue-rotate(153deg) brightness(93%)
+                  contrast(83%);
+              }
+              cursor: pointer;
+              &.active {
+                background-color: #252836;
+                border: 1px solid white;
+                p {
+                  color: white;
+                }
+                .method_img {
+                  filter: brightness(0) saturate(100%) invert(100%) sepia(0%)
+                    saturate(7500%) hue-rotate(179deg) brightness(100%)
+                    contrast(100%);
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+  .home_order_total {
+    .discount_input {
+      background: transparent;
+      border-right: none;
+      color: white;
+    }
+  }
+}

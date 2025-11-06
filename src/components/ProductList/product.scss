@@ -1,0 +1,89 @@
+@import '../../core/font';
+.product_item {
+  position: relative; /* Cần có position: relative cho phần tử cha */
+
+  .product_image {
+    img {
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 1; /* Đảm bảo hình ảnh luôn ở trên */
+      /* Đảm bảo ảnh không bị tràn */
+      height: auto;
+    }
+  }
+  .product_box {
+    background: #1f1d2b;
+    border-radius: 8px;
+    position: relative; /* Thay vì absolute, dùng relative để nó nằm trong bố cục */
+    /* Đảm bảo hộp chứa thông tin luôn nằm trên ảnh */
+
+    &_inner {
+      padding: 11.9rem 2.4rem 2.4rem 2.4rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      gap: 1.4rem;
+      text-align: center;
+    }
+
+    .product_name,
+    .product_price {
+      font-size: 2rem;
+    }
+  }
+}
+.product_list {
+  .col {
+    margin-bottom: calc(4 * var(--pad-pri));
+  }
+  .product_item.add_item {
+    border: 2px dashed var(--primary-color);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    aspect-ratio: 1/1;
+    .action_add {
+      cursor: pointer;
+      .plus {
+        @include fz-60;
+        text-align: center;
+        color: var(--primary-color);
+      }
+      .add_text {
+        color: var(--primary-color);
+        @include fz-20;
+      }
+      .plus,
+      .add_text {
+        transition: all 0.3s ease-in-out;
+      }
+      &:hover {
+        .plus,
+        .add_text {
+          color: white;
+        }
+      }
+    }
+  }
+  .card-back {
+    display: flex;
+    flex-direction: column;
+    gap: 3.2rem;
+  }
+  .btn_addcart {
+    background-color: var(--primary-color);
+  }
+}
+.add_item_modal {
+  .modal_body {
+    .form_group {
+      display: flex;
+      flex-direction: column;
+      gap: 1.6rem;
+    }
+  }
+}

@@ -1,0 +1,157 @@
+.btnn {
+  // Common
+  @include mid-flex;
+  width: fit-content;
+  cursor: pointer;
+  font-family: var(--font-pri);
+  overflow: hidden;
+  gap: 1rem;
+  position: relative;
+  border-radius: 100rem;
+  // Custom
+  background: var(--c-second);
+  color: white !important;
+  font-weight: 500;
+  font-size: 1.6rem;
+  line-height: 1.4;
+  padding: 1rem 2rem;
+  height: 5.2rem;
+  @include max(768px) {
+    padding: 1rem;
+  }
+
+  > * {
+    position: relative;
+    z-index: 2;
+    transition: all 0.3s ease-in-out;
+  }
+  // @include affter();
+  @include hoverAffter;
+  &.--OUT-STOCK-btn {
+    background-color: #8c8c8c !important;
+  }
+  img {
+    border-radius: 0;
+    width: 2rem;
+    object-fit: contain;
+  }
+  &.thin-extra {
+    height: 4rem;
+  }
+  &.thin {
+    height: 4.5rem;
+  }
+  &.prev {
+    flex-direction: row-reverse;
+  }
+
+  &.--pri {
+    background-color: var(--c-pri);
+    &::after {
+      background-color: var(--c-second);
+    }
+    &:hover {
+      color: white;
+    }
+  }
+  &.--second {
+    background-color: var(--c-third);
+    &::after {
+      background-color: var(--c-pri);
+    }
+  }
+  &.--third {
+    background-color: var(--c-third);
+    &::after {
+      background-color: var(--c-pri);
+    }
+    &:hover {
+      color: white;
+    }
+  }
+  &.--four {
+    transition: all 0.2s ease;
+    background-color: #0086c9;
+    &::after {
+      background-color: var(--c-pri);
+    }
+    &:hover {
+      &::after {
+        width: 100%;
+      }
+    }
+  }
+  &.--grey {
+    background-color: #f2f0ed;
+    color: var(--c-black) !important;
+
+    &::after {
+      background-color: var(--c-pri);
+    }
+    &:hover {
+      color: white !important;
+    }
+  }
+
+  &-tab {
+    border-radius: 0.8rem;
+    background: #fff;
+    height: 4.8rem;
+    color: var(--c-pri) !important;
+    img {
+      width: 2rem;
+      height: 2rem;
+      object-fit: contain;
+    }
+    @include max(768px) {
+      @include fz-14;
+      padding: 1rem;
+    }
+    @include hover {
+      color: #fff !important;
+    }
+  }
+  &-trans {
+    background: transparent;
+    color: var(--c-txt) !important;
+    &::after {
+      background: transparent !important;
+    }
+    @include hover {
+      color: var(--c-second) !important;
+    }
+  }
+  &.--add-cart {
+    padding: 1rem;
+    aspect-ratio: 1;
+    img {
+      filter: brightness(0) invert(1);
+    }
+  }
+  &.--dark {
+    background-color: #231f20;
+  }
+  &.--green {
+    background-color: $c-pri;
+  }
+  &.--green-auto {
+    background-color: $c-pri;
+    @include affter(#231f20);
+    // @include hoverAffter;
+  }
+  &.--disable {
+    opacity: 0.5;
+    pointer-events: none;
+  }
+  &.--disable-btn-auto {
+    opacity: 0.5;
+    pointer-events: none;
+  }
+}
+.--OUT-STOCK-btn {
+  pointer-events: none;
+}
+.--OUT-STOCK-btn-auto {
+  pointer-events: none;
+  opacity: 0.6;
+}

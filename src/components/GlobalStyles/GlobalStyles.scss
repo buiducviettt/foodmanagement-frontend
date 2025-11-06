@@ -1,0 +1,103 @@
+@import '../../core/reset';
+@import '../../core/variable';
+@import '../../core/base';
+@import '../../core/mixin';
+@import '../../core/font';
+@import '../../core/flex';
+@import '../../layouts/btn';
+.order_methods {
+  @include flex-gap;
+  .order_button {
+    background: transparent;
+    border: 0.5px solid #393c49;
+    &:hover {
+      background-color: var(--primary-color);
+    }
+  }
+}
+.btn {
+  border-radius: 8px;
+}
+.sub_text {
+  color: #abbbc2;
+  font-size: 14px;
+}
+.prod_item_info {
+  display: flex;
+  align-items: center;
+}
+.prod_img {
+  width: 50px; /* Điều chỉnh kích thước ảnh nếu cần */
+  height: 50px;
+  margin-right: 10px;
+}
+.cta_btn {
+  background: transparent !important;
+  border: 1px solid var(--primary-color);
+  transition: all 0.5s;
+  p {
+    color: var(--primary-color);
+  }
+  &:hover {
+    background-color: var(--primary-color) !important;
+    p {
+      color: white;
+    }
+  }
+}
+.ReactModal__Overlay--after-open {
+  position: fixed;
+  z-index: 1000 !important;
+  background-color: rgba(39, 38, 39, 0.8) !important;
+}
+
+.header {
+  &_wrapper {
+    position: fixed; // Giữ header cố định bên trái
+    top: 0;
+    left: 0;
+    width: 105px; // Chiều rộng của header
+    height: 100vh; // Chiều cao bằng toàn bộ màn hình
+    background-color: #000000; // Màu nền
+    display: flex;
+    flex-direction: column; // Sắp xếp các mục theo chiều dọc
+    align-items: center; // Căn giữa nội dung theo chiều ngang
+    padding: var(--pad-pri);
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1); // Đổ bóng nhẹ
+    .header_inner {
+      display: flex;
+      flex-direction: column; // Xếp dọc các icon
+      justify-content: space-around;
+      height: 100vh; // Đặt chiều cao container, có thể tùy chỉnh
+      .header_logo {
+        text-align: center;
+      }
+      .header_icon {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        transition: all 0.5s; // Hiệu ứng chuyển động
+        padding: 1rem;
+        .icon {
+          width: 30px;
+          height: 30px;
+          filter: brightness(0) saturate(100%) invert(74%) sepia(40%)
+            saturate(570%) hue-rotate(321deg) brightness(97%) contrast(92%);
+        }
+        &:hover {
+          padding: 1rem;
+          background: var(--primary-color);
+          border-radius: 8px;
+          .icon {
+            filter: brightness(0) saturate(100%) invert(85%) sepia(100%)
+              saturate(0%) hue-rotate(60deg) brightness(102%) contrast(104%);
+          }
+        }
+      }
+    }
+  }
+}
+.home_prod_list {
+  padding-top: calc(4 * var(--pad-pri));
+}

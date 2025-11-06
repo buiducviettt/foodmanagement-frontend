@@ -1,0 +1,54 @@
+.setting_layout {
+  padding: var(--pad-pri);
+  .setting_wrapper {
+    display: grid;
+    grid-template-columns: 25% 1fr;
+    gap: 2rem;
+
+    &_left {
+      background: #1f1d2b;
+      border-radius: 8px;
+      height: 100vh;
+
+      .inner {
+        .settting_options {
+          .item {
+            display: flex;
+
+            gap: 1rem;
+            padding: var(--pad-pri);
+            cursor: pointer;
+            transition: all 0.3s ease-in-out;
+            img,
+            p {
+              transition: all 0.3s ease-in-out;
+              filter: brightness(0) saturate(100%) invert(100%) sepia(12%)
+                saturate(2743%) hue-rotate(304deg) brightness(119%)
+                contrast(95%);
+            }
+            &:hover {
+              img {
+                filter: brightness(0) saturate(100%) invert(78%) sepia(54%)
+                  saturate(4914%) hue-rotate(317deg) brightness(104%)
+                  contrast(84%);
+              }
+              .item_title {
+                p {
+                  color: var(--primary-color);
+                }
+              }
+              background: rgb(234, 124, 105, 26%);
+            }
+          }
+        }
+      }
+    }
+    &_right {
+      background: #1f1d2b;
+      border-radius: 8px;
+      .inner {
+        padding: var(--pad-pri);
+      }
+    }
+  }
+}

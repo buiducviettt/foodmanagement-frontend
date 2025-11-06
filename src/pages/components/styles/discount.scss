@@ -1,0 +1,28 @@
+.discount_page {
+  .inner {
+    padding: var(--pad-pri);
+    .discount_coupons {
+      .discount_items {
+        display: grid;
+        gap: 2.4rem;
+        grid-template-columns: repeat(4, 1fr);
+
+        .discount_item {
+          display: grid;
+          grid-template-columns: repeat(2, 1fr);
+          background: #fff;
+          padding: var(--pad-pri);
+          border-radius: 0.8rem;
+          border: 0.1rem dashed #0f0f0f;
+          .copy_text {
+            text-decoration: underline;
+            transition: color 0.2s ease-in;
+            &:hover {
+              color: var(--primary-color);
+            }
+          }
+        }
+      }
+    }
+  }
+}

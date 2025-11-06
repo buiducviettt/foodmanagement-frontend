@@ -1,0 +1,151 @@
+.dashboard_layout {
+  &_inner {
+    .containerPage {
+      display: flex;
+      flex-wrap: nowrap;
+
+      .colPage-7 {
+        flex: 6;
+        width: 60vw;
+      }
+      .colPage-3 {
+        flex: 3;
+        width: 40vw;
+      }
+    }
+    &_left {
+      display: flex;
+      flex-direction: column;
+      gap: var(--pad-pri);
+      .order_figure {
+      }
+    }
+    &_right,
+    &_left {
+      padding: var(--pad-pri);
+      .order_list {
+        background: #1f1d2b;
+        border-radius: 8px;
+        &_inner {
+          padding: var(--pad-pri);
+          .order_list_header {
+            &_inner {
+              display: flex;
+              justify-content: space-between;
+              text-align: center;
+            }
+          }
+        }
+      }
+    }
+  }
+  .box_item {
+    border-radius: 8px;
+    background-color: #1f1d2b;
+    padding: var(--pad-pri);
+    &_inner {
+      .box_item_name {
+        p {
+          color: #abbbc2;
+        }
+      }
+      .box_item_icon {
+        .percentage_number.text_green {
+          color: #50d1aa !important;
+        }
+        .percentage_number.text_red {
+          color: #ff7ca3 !important;
+        }
+        display: flex;
+        gap: 2.4rem;
+        align-items: center;
+        .arrow_icon {
+          .arrow_up_icon,
+          .arrow_down_icon {
+            padding: 0.15rem;
+            width: 24px;
+            height: 24px;
+            background: transparent;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 50%;
+          }
+          .arrow_up_icon {
+            filter: brightness(0) saturate(100%) invert(86%) sepia(7%)
+              saturate(3073%) hue-rotate(101deg) brightness(87%) contrast(86%);
+
+            background: rgba(136, 224, 145, 0.24);
+          }
+          .arrow_down_icon {
+            filter: brightness(0) saturate(100%) invert(63%) sepia(65%)
+              saturate(612%) hue-rotate(298deg) brightness(101%) contrast(96%);
+            background: rgba(255, 100, 113, 0.24);
+          }
+        }
+        &_inner {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          width: 40px;
+          height: 40px;
+          border-radius: 8px;
+          // background-color: var(--full-background);
+          background-color: black;
+          img {
+            filter: brightness(0) saturate(100%) invert(56%) sepia(41%)
+              saturate(2049%) hue-rotate(212deg) brightness(100%) contrast(76%);
+          }
+        }
+      }
+    }
+  }
+  .order_report {
+    &_inner {
+      .order_report_filter {
+      }
+      .order_report_title {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        .filter_icon {
+          filter: brightness(0) saturate(100%) invert(100%) sepia(0%)
+            saturate(7500%) hue-rotate(324deg) brightness(104%) contrast(105%);
+        }
+      }
+      .order_report_table {
+        &_inner {
+          width: 100%;
+          overflow-x: auto; // Đảm bảo không bị tràn màn hình
+          table {
+            border-spacing: 0 var(--pad-pri);
+            .status {
+              border-radius: 30px;
+              display: flex;
+              text-align: center;
+              justify-content: center;
+              padding: 4px 40px;
+              width: 100px;
+            }
+            .complete {
+              background-color: rgb(107, 266, 190, 24%);
+              color: #50d1aa !important;
+            }
+            .pending {
+              background-color: rgb(255, 181, 114, 20%);
+              color: #ffb572 !important;
+            }
+            .preparing {
+              background-color: rgb(146, 144, 254, 20%);
+              color: #9290fe !important;
+            }
+            width: 100%;
+            border-collapse: separate;
+            overflow: hidden;
+          }
+        }
+      }
+    }
+  }
+}
