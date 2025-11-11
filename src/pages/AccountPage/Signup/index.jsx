@@ -2,10 +2,8 @@ import { useState } from 'react';
 import '../../components/styles/account.scss';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import { AuthContext } from '../../../context/AuthContent';
-import { useContext } from 'react';
+import { register } from '../../../api';
 const Signup = () => {
-  const { setUser } = useContext(AuthContext);
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     userName: '',
@@ -27,20 +25,14 @@ const Signup = () => {
       return;
     }
     try {
-      const response = await axios.post(
-        `https://673c683296b8dcd5f3f9d8d8.mockapi.io/food/data/users`,
-        {
-          username: formData.userName,
-          email: formData.email,
-          password: formData.password,
-        },
+      const res = await register(
+        formData.userName,
+        formData.email,
+        formData.password,
+        formData.userName,
       );
-      const newUser = response.data;
-      localStorage.setItem('user', JSON.stringify(newUser));
-      setUser(newUser); // cập nhật context ngay lập tức
-      console.log('Đăng ký thành công', response.data);
-      alert('Đăng ký thành công');
-      navigate('/account');
+      console.log(res);
+      navigate('/login');
     } catch (error) {
       console.error(error);
     }

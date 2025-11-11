@@ -17,7 +17,7 @@ const Home = () => {
   const [method, setMethod] = useState('');
   const { discountValue, applyDiscount } = useContext(DiscountContext);
   const { createNewOrder } = useContext(OrderContext);
-  const { cartItems, removeFromCart, totalPrice, addToRevenue } = useCart();
+  const { cart, removeFromCart, totalPrice, addToRevenue } = useCart();
   const [inputCode, setInputCode] = useState('');
   const [formData, setFormData] = useState({
     cardholderName: '',
@@ -83,7 +83,7 @@ const Home = () => {
 
       // ✅ Tạo đơn hàng (nếu createNewOrder không phải async, thì không cần await)
       const newOrder = await createNewOrder(
-        cartItems,
+        cart,
         formData.cardholderName,
         formData.orderType,
         subtotal,
@@ -154,10 +154,10 @@ const Home = () => {
                         </tr>
                       </thead>
                       <tbody>
-                        {cartItems.length === 0 ? (
+                        {cart.length === 0 ? (
                           <p>Hiện không có sản phẩm này</p>
                         ) : (
-                          cartItems.map((item) => (
+                          cart.map((item) => (
                             <tr key={item.id}>
                               <td
                                 style={{ color: 'white' }}

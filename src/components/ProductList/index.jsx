@@ -8,6 +8,7 @@ import { getProducts } from '../../api';
 import { useLocation } from 'react-router-dom';
 import Modal from 'react-modal';
 const ProductList = ({ value }) => {
+  const { cart, handleAdd, removeCart } = useCart();
   const location = useLocation();
   const pathname = location.pathname;
   // thêm 1 form để lên món mới
@@ -58,14 +59,11 @@ const ProductList = ({ value }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post(
-        'https://673c683296b8dcd5f3f9d8d8.mockapi.io/food/data/courses',
-        {
-          ...formData,
-          price: parseFloat(formData.price),
-          stock: parseInt(formData.stock),
-        },
-      );
+      const response = await axios.post('http://localhost:3000/products/', {
+        ...formData,
+        price: parseFloat(formData.price),
+        stock: parseInt(formData.stock),
+      });
       alert('Thêm món thành công!');
       console.log(response.data);
     } catch (error) {
@@ -76,7 +74,6 @@ const ProductList = ({ value }) => {
   };
   // Quản lý trạng thái flip cho từng sản phẩm
   const [flippedItems, setFlippedItems] = useState([]);
-  const { addToCart } = useCart();
 
   // Danh sách sản phẩm
   const [products, setProducts] = useState([]);
@@ -97,13 +94,12 @@ const ProductList = ({ value }) => {
   // xử lý add to cart
   const handleAddToCart = (e, product) => {
     e.stopPropagation();
-
     if (product.stock <= 0) {
       alert('Out of stock');
       return; // Không thực hiện gì thêm nếu hết hàng
     }
 
-    addToCart(product);
+    handleAdd(product.id);
     console.log('Product added to cart:', product);
   };
 
@@ -118,7 +114,7 @@ const ProductList = ({ value }) => {
     e.preventDefault();
     try {
       const response = await axios.put(
-        `https://673c683296b8dcd5f3f9d8d8.mockapi.io/food/data/courses/${editId}`,
+        `http://localhost:3000/products/${editId}`,
         {
           ...editData,
           price: parseFloat(editData.price),
