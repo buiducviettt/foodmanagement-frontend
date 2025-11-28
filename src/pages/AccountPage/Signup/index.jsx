@@ -2,10 +2,8 @@ import { useState } from 'react';
 import '../../components/styles/account.scss';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import { AuthContext } from '../../../context/AuthContent';
-import { useContext } from 'react';
+import { register } from '../../../api';
 const Signup = () => {
-  const { setUser } = useContext(AuthContext);
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     userName: '',
@@ -27,29 +25,24 @@ const Signup = () => {
       return;
     }
     try {
-      const response = await axios.post(
-        `https://673c683296b8dcd5f3f9d8d8.mockapi.io/food/data/users`,
-        {
-          username: formData.userName,
-          email: formData.email,
-          password: formData.password,
-        },
+      await register(
+        formData.userName,
+        formData.email,
+        formData.password,
+        formData.name,
       );
-      const newUser = response.data;
-      localStorage.setItem('user', JSON.stringify(newUser));
-      setUser(newUser); // cập nhật context ngay lập tức
-      console.log('Đăng ký thành công', response.data);
-      alert('Đăng ký thành công');
-      navigate('/account');
-    } catch (error) {
-      console.error(error);
+
+      alert('Sign up successfully');
+      navigate('/login');
+    } catch (err) {
+      alert(err.response?.data?.error || 'Có lỗi xảy ra');
     }
   };
   return (
     <div className="signup_page">
       <div className="signup_wrapper">
         <div className="signup_content">
-          <h2>Sign Up</h2>
+          <h2 className="sign-up-title">Sign Up</h2>
           <form action="" className="signup_form" onSubmit={handleSubmit}>
             <div className="form_group">
               <label htmlFor="username">Username</label>

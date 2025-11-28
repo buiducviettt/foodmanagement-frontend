@@ -29,7 +29,7 @@
       }
     }
     &_table {
-      height: 50rem;
+      height: 40rem;
       overflow-y: auto;
       &_inner {
         .comment_order {
@@ -75,7 +75,6 @@
     .home_order_payment {
       &_inner {
         .order_cta_group {
-          margin-top: 27rem;
           display: grid;
           grid-template-columns: 1fr 1fr;
           gap: 1.6rem;

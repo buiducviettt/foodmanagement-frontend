@@ -1,94 +1,70 @@
 /* eslint-disable react/prop-types */
 import { createContext, useState, useContext, useEffect } from 'react';
+import { getCart, addToCart, removeFromCart } from '../../api';
 
-// Tạo CartContext
 const CartContext = createContext();
 
-// Provider cho CartContext
 export const CartProvider = ({ children }) => {
-  const [cartItems, setCartItems] = useState([]);
-  const [totalPrice, setTotalPrice] = useState(0);
+  const [cart, setCart] = useState({ items: [], total: 0 });
   const [totalRevenue, setTotalRevenue] = useState(0);
   const [dailyRevenue, setDailyRevenue] = useState(0);
+
+  // 🧠 Lấy giỏ hàng từ server khi load trang
   useEffect(() => {
-    const calculateTotalPrice = () => {
-      const total = cartItems.reduce(
-        (total, item) => total + item.price * item.quantity,
-        0,
-      );
-      setTotalPrice(total.toFixed(2));
-    };
-    calculateTotalPrice();
-  }, [cartItems]);
-
-  // Hàm thêm sản phẩm vào giỏ hàng
-  const addToCart = (item) => {
-    setCartItems((prevItems) => {
-      const existingItem = prevItems.find(
-        (cartItem) => cartItem.id === item.id,
-      );
-
-      if (existingItem) {
-        // Nếu sản phẩm đã tồn tại, tăng số lượng
-        return prevItems.map((cartItem) =>
-          cartItem.id === item.id
-            ? { ...cartItem, quantity: cartItem.quantity + 1 }
-            : cartItem,
-        );
-      } else {
-        // Nếu sản phẩm chưa tồn tại, thêm vào với số lượng ban đầu là 1
-        return [...prevItems, { ...item, quantity: 1 }];
+    const fetchCart = async () => {
+      try {
+        const data = await getCart();
+        setCart(data); // ✔ FE KHÔNG TÍNH GÌ CẢ
+        console.log('🛒 Cart data:', data);
+      } catch (err) {
+        console.error('Error fetching cart:', err);
       }
-    });
-  };
-  // Hàm xóa sản phẩm khỏi giỏ hàng
-  const removeFromCart = (itemId) => {
-    setCartItems((prevItems) => prevItems.filter((item) => item.id !== itemId));
-  };
-
-  // Hàm kiểm tra số lượng sản phẩm trong giỏ
-  const getCartCount = () => cartItems.length;
-  // Kiểm tra và reset daily revenue mỗi ngày
-  useEffect(() => {
-    const today = new Date().toDateString();
-    console.log(today);
-    const lastReset = localStorage.getItem('lastReset');
-    if (lastReset !== today) {
-      setDailyRevenue(0);
-      localStorage.setItem('dailyRevenue', 0);
-      localStorage.setItem('lastReset', today);
-    } else {
-      setDailyRevenue(parseFloat(localStorage.getItem('dailyRevenue')) || 0);
-    }
-
-    // Kiểm tra và lấy totalRevenue từ localStorage
-    const storedTotalRevenue = parseFloat(localStorage.getItem('totalRevenue'));
-    setTotalRevenue(isNaN(storedTotalRevenue) ? 0 : storedTotalRevenue);
+    };
+    fetchCart();
   }, []);
 
-  // Hàm thêm doanh thu khi thanh toán
+  // ➕ Thêm sản phẩm vào giỏ
+  const handleAdd = async (productId) => {
+    try {
+      const updatedCart = await addToCart(productId);
+      setCart(updatedCart);
+      return { success: true, cart: updatedCart };
+    } catch (err) {
+      return { success: false, cart }; // GIỮ CART CŨ
+    }
+  };
+
+  // ❌ Xóa sản phẩm khỏi giỏ
+  const handleRemove = async (productId) => {
+    try {
+      const updatedCart = await removeFromCart(productId);
+      setCart(updatedCart);
+    } catch (err) {
+      console.error('Error removing from cart:', err);
+    }
+  };
+
+  // 💵 Cộng doanh thu khi thanh toán (tùy chọn)
   const addToRevenue = () => {
-    const newDailyRevenue = dailyRevenue + parseFloat(totalPrice);
-    const newTotalRevenue = totalRevenue + parseFloat(totalPrice);
+    const newDailyRevenue = dailyRevenue + cart.total;
+    const newTotalRevenue = totalRevenue + cart.total;
 
     setDailyRevenue(newDailyRevenue);
     setTotalRevenue(newTotalRevenue);
 
-    // Lưu vào localStorage để giữ dữ liệu sau khi tải lại trang
     localStorage.setItem('dailyRevenue', newDailyRevenue);
-    localStorage.setItem('totalRevenue', newTotalRevenue); // FIX: Đảm bảo lưu đúng totalRevenue
+    localStorage.setItem('totalRevenue', newTotalRevenue);
   };
+
   return (
     <CartContext.Provider
       value={{
-        cartItems,
-        addToCart,
+        cart,
+        handleAdd,
+        handleRemove,
         addToRevenue,
-        removeFromCart,
         dailyRevenue,
         totalRevenue,
-        getCartCount,
-        totalPrice,
       }}
     >
       {children}
@@ -96,7 +72,4 @@ export const CartProvider = ({ children }) => {
   );
 };
 
-// Hook để sử dụng CartContext
-export const useCart = () => {
-  return useContext(CartContext);
-};
+export const useCart = () => useContext(CartContext);

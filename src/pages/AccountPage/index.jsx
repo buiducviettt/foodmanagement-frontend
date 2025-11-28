@@ -1,19 +1,28 @@
 import { useState } from 'react';
 import '../components/styles/account.scss';
 
-import { AuthContext } from '../../context/AuthContent';
+import { login } from '../../api';
 import { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 const AccountPage = () => {
   const navigate = useNavigate();
-  const { login } = useContext(AuthContext);
-  const [username, setUserName] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const handleLogin = async (e) => {
     e.preventDefault();
-    await login(username, password);
-    navigate('/');
+    // Gọi API login
+    const res = await login(email, password);
+
+    // Nếu login thành công, có token
+    if (res?.token) {
+      alert('Đăng nhập thành công!');
+      localStorage.setItem('token', res.token);
+      localStorage.setItem('user', JSON.stringify(res.user));
+      navigate('/'); // chuyển hướng về trang chủ
+    } else {
+      alert(res?.message || 'Đăng nhập thất bại!');
+    }
   };
   const togglePassword = () => {
     setShowPassword((prev) => !prev);
@@ -30,11 +39,11 @@ const AccountPage = () => {
               </div>
               <ul className="form_groups">
                 <li className="form_group">
-                  <label htmlFor="">Username</label>
+                  <label htmlFor="">Email</label>
                   <input
                     type="text"
-                    value={username}
-                    onChange={(e) => setUserName(e.target.value)}
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
                   />
                 </li>
                 <li className="form_group">
