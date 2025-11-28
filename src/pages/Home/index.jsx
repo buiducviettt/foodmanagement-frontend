@@ -11,13 +11,14 @@ import Form from 'react-bootstrap/Form';
 import { DiscountContext } from '../../context/DiscountContext';
 import { OrderContext } from '../../context/OrderContext';
 import Modal from 'react-modal';
+import { createOrders } from '../../api';
 import FoodTab from '../../components/FoodTab';
 Modal.setAppElement('#root');
 const Home = () => {
   const [method, setMethod] = useState('');
   const { discountValue, applyDiscount } = useContext(DiscountContext);
   const { createNewOrder } = useContext(OrderContext);
-  const { cart, removeFromCart, totalPrice, addToRevenue } = useCart();
+  const { cart, handleRemove, totalPrice, addToRevenue } = useCart();
   const [inputCode, setInputCode] = useState('');
   const [formData, setFormData] = useState({
     cardholderName: '',
@@ -33,10 +34,21 @@ const Home = () => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
-
   const [openPopup, setOpenPopup] = useState(false);
   const handleOpenPopup = () => {
+    if (!formData.cardholderName) return alert('Tên không được để trống');
+    // if (!/^\d{16}$/.test(formData.cardNumber))
+    //   return alert('Card number không hợp lệ');
+    if (!/^\d{3,4}$/.test(formData.cvv)) return alert('CVV không đúng');
+    if (!/^\d{2}\/\d{4}$/.test(formData.expirationDate))
+      return alert('Ngày hết hạn sai format');
     console.log('open popup');
+    const randomTable = Math.floor(Math.random() * 200) + 1;
+
+    setFormData((prev) => ({
+      ...prev,
+      tableNo: randomTable.toString(),
+    }));
     setOpenPopup(true);
   };
   const handleClosePopup = () => {
@@ -53,8 +65,9 @@ const Home = () => {
   };
 
   //logic tinh toan
-  let discountPercentage = `${discountValue}%`;
-  let subtotal = totalPrice - totalPrice * (discountValue / 100);
+  const resolvedTotal = cart?.total ?? 0;
+  const discountPercentage = `${discountValue}%`;
+  const subtotal = resolvedTotal - resolvedTotal * (discountValue / 100);
   const paymentMethods = [
     {
       id: 'paypal',
@@ -79,27 +92,19 @@ const Home = () => {
   //
   const handleSubmit = async () => {
     try {
-      console.log('FormData:', formData);
-
-      // ✅ Tạo đơn hàng (nếu createNewOrder không phải async, thì không cần await)
-      const newOrder = await createNewOrder(
-        cart,
+      const res = await createOrders(
+        cart.items,
         formData.cardholderName,
         formData.orderType,
-        subtotal,
       );
-      console.log('newOrder:', JSON.stringify(newOrder, null, 2));
-      alert(`Thanh toán thành công! Tổng tiền: ${subtotal}`);
-      // ✅ Đợi cộng doanh thu xong (nếu hàm là async)
-      await addToRevenue();
-      // ✅ Reset giỏ hàng nếu muốn (tránh reload toàn trang)
-      // clearCart(); // nếu có
-      // ✅ Reload nhẹ nhàng (có thể thay bằng chuyển route hoặc reset form)
-      window.location.reload();
-    } catch (error) {
-      console.error('Error creating order:', error);
-      alert('Có lỗi xảy ra trong quá trình thanh toán. Vui lòng thử lại!');
+      console.log('Đơn đã tạo', res);
+      alert('Đơn hàng tạo thanh công');
+    } catch (err) {
+      console.error('Lỗi tạo đơn', err);
+      alert('Lỗi tạo đơn');
     }
+
+    setOpenPopup(false);
   };
   const [date, setDate] = useState('');
   useEffect(() => {
@@ -154,21 +159,21 @@ const Home = () => {
                         </tr>
                       </thead>
                       <tbody>
-                        {cart.length === 0 ? (
+                        {cart.items?.length === 0 ? (
                           <p>Hiện không có sản phẩm này</p>
                         ) : (
-                          cart.map((item) => (
-                            <tr key={item.id}>
+                          cart.items?.map((item) => (
+                            <tr key={item.productId}>
                               <td
                                 style={{ color: 'white' }}
                                 className="prod_item_info"
                               >
                                 <img
-                                  src={item.image}
+                                  src={item.product?.image}
                                   alt=""
                                   className="prod_img"
                                 />
-                                {item.title}
+                                {item.product?.title}
                               </td>
                               <input
                                 placeholder="Order Note..."
@@ -187,11 +192,11 @@ const Home = () => {
                                 {item.quantity}
                               </td>
                               <td style={{ color: 'white' }}>
-                                ${item.price}
+                                ${item.product?.price ?? item.price ?? 0}/dish
                                 <div className="remove_item icon">
                                   <FontAwesomeIcon
                                     icon={faTrash}
-                                    onClick={() => removeFromCart(item.id)}
+                                    onClick={() => handleRemove(item.productId)}
                                   />
                                 </div>
                               </td>
@@ -241,7 +246,7 @@ const Home = () => {
                       }}
                     >
                       <p>Total</p>
-                      <p>${totalPrice}</p>
+                      <p>${resolvedTotal.toFixed(2)}</p>
                     </div>
                     <div
                       className="home_order_discount"
@@ -393,7 +398,7 @@ const Home = () => {
                                   onClick={handleChangeForm}
                                   name="tableNo"
                                   type="text"
-                                  value="144"
+                                  value="Wait for arranging....."
                                   readOnly
                                 ></Form.Control>
                               </div>
@@ -465,7 +470,7 @@ const Home = () => {
             >
               <h2>Here is your information</h2>
               <p>
-                <strong>Order price:</strong> {subtotal}
+                <strong>Order price:</strong> {subtotal.toFixed(2)}
               </p>
               <p>
                 <strong>OrderType:</strong> {formData.orderType}

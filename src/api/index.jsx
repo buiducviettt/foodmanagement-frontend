@@ -25,17 +25,12 @@ export const login = async (email, password) => {
 };
 // đăng ký
 export const register = async (username, email, password, name) => {
-  try {
-    const res = await api.post('/auth/register', {
-      username,
-      email,
-      password,
-      name,
-    });
-    return res.data;
-  } catch (e) {
-    console.error(' Gặp lỗi trong quá trình đăng ký ', e);
-  }
+  const res = await api.post('/auth/register', {
+    username,
+    email,
+    password,
+  });
+  return res.data;
 };
 // gọi list sản phẩm
 export const getProducts = async () => {
@@ -70,7 +65,7 @@ export const addToCart = async (productId) => {
   }
 };
 //remove cart
-export const removeCart = async (productId) => {
+export const removeFromCart = async (productId) => {
   try {
     const res = await api.delete(`cart/remove/${productId}`);
     console.log('Cart have been removed ', res.data);
@@ -92,5 +87,30 @@ export const updatedStock = async (id, stock) => {
     console.error('Error updating stock:', error);
   }
 };
+export const createOrders = async (cart, customer, type) => {
+  try {
+    const res = await api.post('/orders', { cart, customer, type });
+    return res.data;
+  } catch (err) {
+    console.error('Create order failed:', err);
+    throw err;
+  }
+};
 
+export const getOrders = async () => {
+  const res = await api.get('/orders');
+  return res.data;
+};
+export const getDashboardStats = async () => {
+  const res = await api.get('/dashboard/stats');
+  return res.data;
+};
+export const getTopDishesAPI = async () => {
+  const res = await api.get('/dashboard/top-dishes');
+  return res.data;
+};
+export const getOrderTypesAPI = async () => {
+  const res = await api.get('/dashboard/order-types');
+  return res.data;
+};
 export default api;

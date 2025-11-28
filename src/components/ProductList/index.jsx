@@ -92,14 +92,32 @@ const ProductList = ({ value }) => {
     fetchProducts();
   }, []);
   // xử lý add to cart
-  const handleAddToCart = (e, product) => {
+  const handleAddToCart = async (e, product) => {
     e.stopPropagation();
-    if (product.stock <= 0) {
-      alert('Out of stock');
-      return; // Không thực hiện gì thêm nếu hết hàng
+
+    // 1. Gọi backend để add vào cart + giảm stock
+    const result = await handleAdd(product.id);
+
+    if (!result.success) {
+      alert(result.message);
+      return;
     }
 
-    handleAdd(product.id);
+    const updatedCart = result.cart;
+    // 4. Nếu cart không hợp lệ → return luôn
+    if (!updatedCart || !updatedCart.items) return;
+    // 2. Lấy lại stock mới của sản phẩm từ backend
+    const updatedItem = updatedCart.items.find(
+      (item) => item.productId === product.id,
+    );
+
+    const newStock = updatedItem?.product?.stock;
+
+    // 3. Update stock trong UI ngay lập tức
+    setProducts((prev) =>
+      prev.map((p) => (p.id === product.id ? { ...p, stock: newStock } : p)),
+    );
+
     console.log('Product added to cart:', product);
   };
 
@@ -270,10 +288,14 @@ const ProductList = ({ value }) => {
                     <div className="product_cart_item">
                       {pathname === '/' && (
                         <div
-                          className="btnn --pri btnn_addcart"
-                          onClick={(e) => handleAddToCart(e, product)}
+                          className={`btnn --pri btnn_addcart ${
+                            product.stock <= 0 ? 'disabled' : ''
+                          }`}
+                          onClick={(e) =>
+                            product.stock > 0 && handleAddToCart(e, product)
+                          }
                         >
-                          Order now
+                          {product.stock <= 0 ? 'Sold Out' : 'Order now'}
                         </div>
                       )}
                     </div>

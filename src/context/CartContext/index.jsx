@@ -1,12 +1,11 @@
 /* eslint-disable react/prop-types */
 import { createContext, useState, useContext, useEffect } from 'react';
-import { getCart, addToCart, removeCart } from '../../api';
+import { getCart, addToCart, removeFromCart } from '../../api';
 
 const CartContext = createContext();
 
 export const CartProvider = ({ children }) => {
-  const [cart, setCart] = useState([]);
-  const [totalPrice, setTotalPrice] = useState(0);
+  const [cart, setCart] = useState({ items: [], total: 0 });
   const [totalRevenue, setTotalRevenue] = useState(0);
   const [dailyRevenue, setDailyRevenue] = useState(0);
 
@@ -15,7 +14,7 @@ export const CartProvider = ({ children }) => {
     const fetchCart = async () => {
       try {
         const data = await getCart();
-        setCart(data?.items || []); // ✅ phải có dấu ()
+        setCart(data); // ✔ FE KHÔNG TÍNH GÌ CẢ
         console.log('🛒 Cart data:', data);
       } catch (err) {
         console.error('Error fetching cart:', err);
@@ -24,22 +23,14 @@ export const CartProvider = ({ children }) => {
     fetchCart();
   }, []);
 
-  // 💰 Tính tổng tiền mỗi khi cart thay đổi
-  useEffect(() => {
-    const total = cart.reduce(
-      (sum, item) => sum + item.product.price * item.quantity,
-      0,
-    );
-    setTotalPrice(total.toFixed(2));
-  }, [cart]);
-
   // ➕ Thêm sản phẩm vào giỏ
   const handleAdd = async (productId) => {
     try {
       const updatedCart = await addToCart(productId);
-      setCart(updatedCart.items); // ✅ luôn đồng bộ với DB
+      setCart(updatedCart);
+      return { success: true, cart: updatedCart };
     } catch (err) {
-      console.error('Error while add to cart:', err);
+      return { success: false, cart }; // GIỮ CART CŨ
     }
   };
 
@@ -47,16 +38,16 @@ export const CartProvider = ({ children }) => {
   const handleRemove = async (productId) => {
     try {
       const updatedCart = await removeFromCart(productId);
-      setCart(updatedCart.items);
+      setCart(updatedCart);
     } catch (err) {
       console.error('Error removing from cart:', err);
     }
   };
 
-  // 💵 Cộng doanh thu khi thanh toán
+  // 💵 Cộng doanh thu khi thanh toán (tùy chọn)
   const addToRevenue = () => {
-    const newDailyRevenue = dailyRevenue + parseFloat(totalPrice);
-    const newTotalRevenue = totalRevenue + parseFloat(totalPrice);
+    const newDailyRevenue = dailyRevenue + cart.total;
+    const newTotalRevenue = totalRevenue + cart.total;
 
     setDailyRevenue(newDailyRevenue);
     setTotalRevenue(newTotalRevenue);
@@ -74,7 +65,6 @@ export const CartProvider = ({ children }) => {
         addToRevenue,
         dailyRevenue,
         totalRevenue,
-        totalPrice,
       }}
     >
       {children}

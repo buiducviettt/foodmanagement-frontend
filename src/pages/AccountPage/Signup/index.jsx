@@ -25,23 +25,24 @@ const Signup = () => {
       return;
     }
     try {
-      const res = await register(
+      await register(
         formData.userName,
         formData.email,
         formData.password,
-        formData.userName,
+        formData.name,
       );
-      console.log(res);
+
+      alert('Sign up successfully');
       navigate('/login');
-    } catch (error) {
-      console.error(error);
+    } catch (err) {
+      alert(err.response?.data?.error || 'Có lỗi xảy ra');
     }
   };
   return (
     <div className="signup_page">
       <div className="signup_wrapper">
         <div className="signup_content">
-          <h2>Sign Up</h2>
+          <h2 className="sign-up-title">Sign Up</h2>
           <form action="" className="signup_form" onSubmit={handleSubmit}>
             <div className="form_group">
               <label htmlFor="username">Username</label>

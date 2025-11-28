@@ -8,6 +8,7 @@ const FoodTab = () => {
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
+  // nếu không có giá trị thì hiển thị không có
   return (
     <Box>
       <Tabs
